@@ -1,0 +1,45 @@
+# Build resultaten
+bin/
+obj/
+out/
+
+# Visual Studio bestanden
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logfiles
+*.log
+
+# Config bestanden die lokaal zijn
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+*.nuget.props
+*.nuget.targets
+
+# Lokale test resultaten
+TestResult*/
+*.trx
+*.coverage
+*.coveragexml
+
+# OS-specifieke bestanden
+.DS_Store
+Thumbs.db
+
+# JetBrains Rider (indien per ongeluk gebruikt)
+.idea/
+*.iml
+
+# Publish bestanden
+*.publish.xml
+*.pubxml
+*.publishproj
