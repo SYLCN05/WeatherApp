@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Options;
+using WeatherAPI.Services;
 
 namespace WeatherAPI.Controllers
 {
@@ -9,7 +11,7 @@ namespace WeatherAPI.Controllers
     {
       
         private readonly HttpClient _httpClient;
-   
+        private readonly string API_KEY = Secrets.OpenWeatherApiKey();
         public WeatherForecastController(HttpClient httpClient)
         {
             _httpClient = httpClient;
