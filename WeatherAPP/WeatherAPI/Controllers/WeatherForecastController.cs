@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace WeatherAPI.Controllers
 {
@@ -6,28 +7,28 @@ namespace WeatherAPI.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+      
+        private readonly HttpClient _httpClient;
+   
+        public WeatherForecastController(HttpClient httpClient)
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
+            _httpClient = httpClient;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet("{Zipcode}")]
+        public async Task<IActionResult> PostalcodeToGeocode([FromRoute] string Zipcode,[FromQuery] string CountryCode)
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            _httpClient.BaseAddress = new Uri("http://api.openweathermap.org/geo/1.0/");
+            _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+
+            var response = await _httpClient.GetAsync($"zip?zip={Zipcode},{CountryCode}&appid={API_KEY}");
+
+            if (response.IsSuccessStatusCode)
             {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                var result = await response.Content.ReadAsStringAsync();
+                return Ok(result);
+            }
+            return BadRequest();
         }
     }
 }
