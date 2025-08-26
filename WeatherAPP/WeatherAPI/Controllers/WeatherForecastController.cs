@@ -32,5 +32,21 @@ namespace WeatherAPI.Controllers
             }
             return BadRequest();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCurrentData([FromQuery] double lat, [FromQuery] double lon)
+        {
+            _httpClient.BaseAddress = new Uri("https://api.openweathermap.org/data/2.5/");
+         
+
+            var response = await _httpClient.GetAsync($"weather?lat={lat}&lon={lon}&appid={API_KEY}&units=metric");
+
+            if (response.IsSuccessStatusCode) 
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                return Ok(result);
+            }
+            return BadRequest();
+        }
     }
 }
