@@ -1,6 +1,22 @@
-@WeatherAPI_HostAddress = http://localhost:5270
+@WeatherAPI_HostAddress = https://localhost:7081
 
 GET {{WeatherAPI_HostAddress}}/weatherforecast/
 Accept: application/json
+
+###
+
+
+
+
+
+
+@CountryCode=NL
+GET {{WeatherAPI_HostAddress}}/weatherforecast/8226EP?CountryCode={{CountryCode}}
+
+###
+
+@lat=52.496
+@lon=5.4855
+GET {{WeatherAPI_HostAddress}}/weatherforecast?lat={{lat}}&lon={{lon}}
 
 ###
